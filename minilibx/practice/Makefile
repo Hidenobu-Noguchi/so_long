@@ -39,3 +39,5 @@ circle_midpoint:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) draw_circle_midpoint.c -L$(MLX_DIR) $(MLX_LIB)
 triangle:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) draw_triangle.c -L$(MLX_DIR) $(MLX_LIB)
+colors:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) colors.c -L$(MLX_DIR) $(MLX_LIB)

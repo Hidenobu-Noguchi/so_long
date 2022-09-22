@@ -60,12 +60,16 @@ void	draw_circle_mid_point(t_data *image, int centre_x, int centre_y, int radius
 	}
 }
 
-int main(void)
+#include <stdlib.h>
+
+int main(int argc, char **argv)
 {
 	void	*new_mlx;
 	void	*new_mlx_window;
 	t_data	image;
 
+	if (argc != 4)
+		return (0);
 	new_mlx = mlx_init();
 	new_mlx_window = mlx_new_window(new_mlx, 1920, 1080, "Hello world!");
 	image.img = mlx_new_image(new_mlx, 1920, 1080);
@@ -75,7 +79,8 @@ int main(void)
 			, &image.line_length
 			, &image.endian
 			);
-	draw_circle_mid_point(&image, 500, 500, 200);
+	draw_circle_mid_point(&image
+			, atoi(argv[1]), atoi(argv[2]), atoi(argv[3]));
 	mlx_put_image_to_window(new_mlx, new_mlx_window, image.img, 0, 0);
 	mlx_loop(new_mlx);
 	return (0);
