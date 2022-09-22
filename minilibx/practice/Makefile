@@ -29,6 +29,9 @@ new_image_struct:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) new_image_struct.c -L$(MLX_DIR) $(MLX_LIB)
 push_image:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) push_images_window.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
 bresenham:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) draw_line_bresenham.c -L$(MLX_DIR) $(MLX_LIB)
 square:
@@ -39,5 +42,13 @@ circle_midpoint:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) draw_circle_midpoint.c -L$(MLX_DIR) $(MLX_LIB)
 triangle:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) draw_triangle.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
 colors:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) colors.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
+close:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_key_press.c -L$(MLX_DIR) $(MLX_LIB)

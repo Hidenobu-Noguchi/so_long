@@ -8,12 +8,26 @@ typedef struct	s_data {
 	int	endian;
 }	t_data;
 
+/*
+typedef struct	s_coordinates
+{
+	int	x_coordinates;
+	int	y_coordinates;
+}	t_coordinates;
+*/
+
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+}
+
+int	create_trgb(unsigned char t, unsigned char r
+		, unsigned char g, unsigned char b)
+{
+	return (*(int *)(unsigned char [4]){b, g, r, t});
 }
 
 void	draw_line_bresenham(t_data *image, int start_x, int start_y, int finish_x, int finish_y)
@@ -25,6 +39,7 @@ void	draw_line_bresenham(t_data *image, int start_x, int start_y, int finish_x, 
 	int	x_diff_double;
 	int	y_diff_double;
 	int	diff;
+	int	color;
 
 	drawing_x = start_x;
 	drawing_y = start_y;
@@ -33,6 +48,7 @@ void	draw_line_bresenham(t_data *image, int start_x, int start_y, int finish_x, 
 	x_diff_double = 2 * x_diff;
 	y_diff_double = 2 * y_diff;
 	diff = -1 * x_diff;
+	color = create_trgb(100, 173, 255, 47);
 
 	while (drawing_x <= finish_x)
 	{
@@ -42,7 +58,7 @@ void	draw_line_bresenham(t_data *image, int start_x, int start_y, int finish_x, 
 			diff -= x_diff_double;
 		}
 		diff += y_diff_double;
-		my_mlx_pixel_put(image, drawing_x, drawing_y, 0x00FF0000);
+		my_mlx_pixel_put(image, drawing_x, drawing_y, color);
 		drawing_x += 1;
 	}
 }
