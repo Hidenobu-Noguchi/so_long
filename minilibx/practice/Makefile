@@ -50,5 +50,25 @@ colors:
 
 
 
-close:
-	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_key_press.c -L$(MLX_DIR) $(MLX_LIB)
+close_window:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_press_escape.c -L$(MLX_DIR) $(MLX_LIB)
+resize_window:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_message_resize_window.c -L$(MLX_DIR) $(MLX_LIB)
+press_key:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_keycode_press_key.c -L$(MLX_DIR) $(MLX_LIB)
+click_mouse:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_mousecode_click_mouse.c -L$(MLX_DIR) $(MLX_LIB)
+inout_mouse:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_message_move_mouse.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
+key_hook:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) key_hook.c -L$(MLX_DIR) $(MLX_LIB)
+mouse_hook:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) mouse_hook.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
+move_mouse:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_current_position_mouse.c -L$(MLX_DIR) $(MLX_LIB)
