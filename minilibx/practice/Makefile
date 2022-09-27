@@ -50,8 +50,16 @@ colors:
 
 
 
-close_window:
+close_escape:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_press_escape.c -L$(MLX_DIR) $(MLX_LIB)
+close_escape_check_leaks:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_press_escape.c -L$(MLX_DIR) $(MLX_LIB)
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=yes ./a.out
+close_cross:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_click_cross.c -L$(MLX_DIR) $(MLX_LIB)
+close_cross_check_leaks:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) close_window_click_cross.c -L$(MLX_DIR) $(MLX_LIB)
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=yes ./a.out
 resize_window:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_message_resize_window.c -L$(MLX_DIR) $(MLX_LIB)
 press_key:
@@ -65,6 +73,7 @@ inout_mouse:
 
 key_hook:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) key_hook.c -L$(MLX_DIR) $(MLX_LIB)
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=yes ./a.out
 mouse_hook:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) mouse_hook.c -L$(MLX_DIR) $(MLX_LIB)
 

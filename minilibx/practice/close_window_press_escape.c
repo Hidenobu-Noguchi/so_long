@@ -8,11 +8,11 @@ typedef struct	s_vars
 	void	*win;
 }	t_vars;
 
-# define KEY_ESCAPE_1 27
-# define KEY_ESCAPE_2 65307
+# define KEY_ESCAPE_MAC 27
+# define KEY_ESCAPE_LINUX 65307
 int	close_window(int keycode, t_vars *vars)
 {
-	if (keycode == KEY_ESCAPE_1 || keycode == KEY_ESCAPE_2)
+	if (keycode == KEY_ESCAPE_MAC || keycode == KEY_ESCAPE_LINUX)
 		mlx_destroy_window(vars->mlx, vars->win);
 	return (0);
 }
