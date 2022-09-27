@@ -45,8 +45,8 @@ void	draw_line_bresenham(t_data *image, int start_x, int start_y, int finish_x, 
 	drawing_y = start_y;
 	x_diff = finish_x - start_x;
 	y_diff = finish_y - start_x;
-	x_diff_double = 2 * x_diff;
-	y_diff_double = 2 * y_diff;
+	x_diff_double = x_diff * 2;
+	y_diff_double = y_diff * 2;
 	diff = -1 * x_diff;
 	color = create_trgb(100, 173, 255, 47);
 
