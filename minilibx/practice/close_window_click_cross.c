@@ -12,7 +12,6 @@ typedef struct	s_vars {
 int	close_window(t_vars *param)
 {
 	// (void)param;
-
 	mlx_destroy_window(param->mlx, param->win);
 	exit(0);
 }

@@ -83,3 +83,13 @@ move_mouse:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_current_position_mouse.c -L$(MLX_DIR) $(MLX_LIB)
 angle_mouse:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) print_angle_position_mouse.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
+loop_hook:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) loop_hook.c -L$(MLX_DIR) $(MLX_LIB)
+
+
+
+xpm_image:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) xpm_image.c -L$(MLX_DIR) $(MLX_LIB)
