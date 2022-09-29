@@ -7,10 +7,14 @@ typedef struct	s_vars {
 	void	*win;
 }	t_vars;
 
-int	print_keycode(int keycode, t_vars *vars)
+int	print_keycode(t_vars *vars)
 {
+	static int	flame_count;
 	(void)vars;
-	printf("Pressed Keycode is [%d]\n", keycode);
+
+	flame_count += 1;
+	if ((flame_count % 50000) == 0)
+		printf("flame count is [%d]\n", flame_count);
 	return (0);
 }
 

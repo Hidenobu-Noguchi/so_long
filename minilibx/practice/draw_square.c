@@ -16,8 +16,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-// int main(int argc, char **argv)
-int main(void)
+int	main(void)
 {
 	void	*new_mlx;
 	void	*new_mlx_window;

@@ -88,7 +88,10 @@ angle_mouse:
 
 loop_hook:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) loop_hook.c -L$(MLX_DIR) $(MLX_LIB)
-
+render_rainbow:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) render_rainbow.c -L$(MLX_DIR) $(MLX_LIB)
+move_circle:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) move_circle.c -L$(MLX_DIR) $(MLX_LIB)
 
 
 xpm_image:

@@ -62,7 +62,7 @@ void	draw_circle_mid_point(t_data *image, int centre_x, int centre_y, int radius
 
 #include <stdlib.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	void	*new_mlx;
 	void	*new_mlx_window;
