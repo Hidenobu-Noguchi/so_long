@@ -3,7 +3,7 @@
 
 typedef struct	s_vars {
 	void	*mlx;
-	void	*win;
+	void	*window;
 }	t_vars;
 
 // ON_MOUSEDOWN 4 int (*f)(int button, int x, int y, void *param);
@@ -21,12 +21,12 @@ int	main(void)
 	t_vars	vars;
 
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello, World!");
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Print current mouse position");
 	// mlx_mouse_hook(vars.win, print_current_position, &vars);
 	// 06 MotionNotify; (1L<<6) PointerMotionMask;
 	// void mlx_hook(mlx_win_list_t *win_ptr, int x_event, int x_mask
 	// 			, int(*f)(), void *param);
-	mlx_hook(vars.win, 6, 1L<<6, print_current_position, &vars);
+	mlx_hook(vars.window, 6, 1L<<6, print_current_position, &vars);
 	mlx_loop(vars.mlx);
 
 	return (0);

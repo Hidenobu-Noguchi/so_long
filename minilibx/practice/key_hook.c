@@ -4,15 +4,17 @@
 
 typedef struct	s_vars {
 	void	*mlx;
-	void	*win;
+	void	*window;
 }	t_vars;
 
-int	key_hook(int keycode, t_vars *vars)
+# define KEY_ESCAPE_MAC 27
+# define KEY_ESCAPE_LINUX 65307
+int	close_window(int keycode, t_vars *vars)
 {
-	(void)keycode;
-	printf("Hello from key_hook!\n");
-	mlx_destroy_window(vars->mlx, vars->win);
-	exit(0);
+	if (keycode == KEY_ESCAPE_MAC || keycode == KEY_ESCAPE_LINUX)
+		mlx_destroy_window(vars->mlx, vars->window);
+	free(vars->mlx);
+	exit (0);
 }
 
 int	main(void)
@@ -20,8 +22,8 @@ int	main(void)
 	t_vars	vars;
 
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Practice[key_hook]");
-	mlx_key_hook(vars.win, key_hook, &vars);
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "key_hook");
+	mlx_key_hook(vars.window, close_window, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

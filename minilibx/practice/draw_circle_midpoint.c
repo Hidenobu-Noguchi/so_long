@@ -1,5 +1,10 @@
 #include <mlx.h>
 
+typedef struct	s_vars {
+	void	*mlx;
+	void	*window;
+}	t_vars;
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -62,6 +67,28 @@ void	draw_circle_mid_point(t_data *image, int centre_x, int centre_y, int radius
 
 #include <stdlib.h>
 
+int	main(void)
+{
+	t_vars	vars;
+	t_data	image;
+
+	vars.mlx = mlx_init();
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Draw circle");
+	image.img = mlx_new_image(vars.mlx, 640, 480);
+	image.addr = mlx_get_data_addr(
+			image.img
+			, &image.bits_per_pixel
+			, &image.line_length
+			, &image.endian
+			);
+	draw_circle_mid_point(&image, 320, 240, 100);
+	mlx_put_image_to_window(vars.mlx, vars.window, image.img, 0, 0);
+	mlx_loop(vars.mlx);
+	return (0);
+}
+
+/*
+Argument: origin coordinate x and y, radius
 int	main(int argc, char **argv)
 {
 	void	*new_mlx;
@@ -85,3 +112,4 @@ int	main(int argc, char **argv)
 	mlx_loop(new_mlx);
 	return (0);
 }
+*/

@@ -7,7 +7,7 @@
 
 typedef struct	s_vars_data {
 	void	*mlx;
-	void	*win;
+	void	*window;
 
 	void	*img;
 	char	*addr;
@@ -41,7 +41,7 @@ int	draw_circle_mid_point(t_vars_data *vars)
 		{
 			mlx_destroy_image(vars->mlx, vars->img);
 		}
-		vars->img = mlx_new_image(vars->mlx, 680, 450);
+		vars->img = mlx_new_image(vars->mlx, 640, 480);
 		vars->addr = mlx_get_data_addr(
 			vars->img
 			, &vars->bits_per_pixel
@@ -81,7 +81,7 @@ int	draw_circle_mid_point(t_vars_data *vars)
 				my_mlx_pixel_put(vars, vars->centre_x - opposite, vars->centre_y - adjacent, color);
 			}
 		}
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+		mlx_put_image_to_window(vars->mlx, vars->window, vars->img, 0, 0);
 		flame_count = 0;
 	}
 	else
@@ -126,8 +126,8 @@ int	main(void)
 	vars.radius = 100;
 	vars.img = NULL;
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 680, 450, "Move circle");
-	mlx_key_hook(vars.win, add_coordinate, &vars);
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Move circle");
+	mlx_key_hook(vars.window, add_coordinate, &vars);
 	mlx_loop_hook(vars.mlx, draw_circle_mid_point, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

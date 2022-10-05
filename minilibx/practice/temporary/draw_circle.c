@@ -27,7 +27,7 @@ int main(void)
 	t_data	image;
 
 	vars.mlx = mlx_init();
-	vars.window = mlx_new_window(vars.mlx, 640, 480, "Draw triangle");
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Draw circle");
 	image.img = mlx_new_image(vars.mlx, 640, 480);
 	image.addr = mlx_get_data_addr(
 			image.img
@@ -35,14 +35,12 @@ int main(void)
 			, &image.line_length
 			, &image.endian
 			);
-	// triangle
-	// p(x, y) = p(0, 0); y = ax + b; 0 = 0a + b; b = 0;
-	// p(x, y) = p(99, 99); 99 = 99a + b; a = 1;
-	// y = x;
+	// circle
 	for (int j = 0; j < 100; j++)
-		for (int i = 0; i < 100; i++)
-			if (i <= j)
-				my_mlx_pixel_put(&image, i, j, 0x000000FF);
+		for (int i = 0; i < 100; i++ )
+			if (((i - 50) * (i - 50)) + ((j - 50) * (j - 50))
+					<= 50 * 50)
+				my_mlx_pixel_put(&image, i, j, 0x0000FF00);
 			else
 				my_mlx_pixel_put(&image, i, j, 0x00FF0000);
 	mlx_put_image_to_window(vars.mlx, vars.window, image.img, 0, 0);

@@ -1,5 +1,8 @@
 #include <mlx.h>
+#include <stdlib.h>
 
+# define KEY_ESCAPE_LINUX 65307
+# define KEY_ESCAPE_MAC 27
 # define KEY_A 97
 # define KEY_D 100
 # define KEY_S 115
@@ -7,16 +10,9 @@
 
 typedef struct	s_vars_image {
 	void	*mlx;
-	void	*win;
+	void	*window;
 
 	void	*img;
-	/*
-	char	*addr;
-	int	bits_per_pixel;
-	int	line_length;
-	int	endian;
-	*/
-	// char	*img_path;
 	int	img_width;
 	int	img_height;
 	int	position_x;
@@ -28,17 +24,11 @@ typedef struct	s_vars_image {
 */
 int	draw_image(t_vars_image *vars)
 {
-	static int	flame_count = 500;
+	static int	flame_count;
 
 	if (flame_count == 500)
 	{
-		if (vars->img)
-		{
-			mlx_destroy_image(vars->mlx, vars->img);
-		}
-		vars->img = mlx_new_image(vars->mlx, 640, 480);
-		vars->img = mlx_xpm_file_to_image(vars->mlx, "./images/player/0_1.xpm", &vars->img_width, &vars->img_height);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img, vars->position_x, vars->position_y);
+		mlx_put_image_to_window(vars->mlx, vars->window, vars->img, vars->position_x, vars->position_y);
 		flame_count = 0;
 	}
 	else
@@ -50,7 +40,12 @@ int	draw_image(t_vars_image *vars)
 
 int	add_coordinate(int keycode, t_vars_image *vars)
 {
-	if (keycode == KEY_A)
+	if (keycode == KEY_ESCAPE_LINUX || keycode == KEY_ESCAPE_MAC)
+	{
+		mlx_loop_end(vars->mlx);
+		return (0);
+	}
+	else if (keycode == KEY_A)
 	{
 		vars->position_x -= 20;
 	}
@@ -75,12 +70,18 @@ int	main(void)
 
 	vars.position_x = 320;
 	vars.position_y = 240;
-	vars.img = 0;
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Move image");
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Move image");
+	vars.img = mlx_new_image(vars.mlx, 640, 480);
+	vars.img = mlx_xpm_file_to_image(vars.mlx, "./images/player/0_1.xpm", &vars.img_width, &vars.img_height);
+	mlx_put_image_to_window(vars.mlx, vars.window, vars.img, vars.position_x, vars.position_y);
 
-	mlx_key_hook(vars.win, add_coordinate, &vars);
+	mlx_key_hook(vars.window, add_coordinate, &vars);
 	mlx_loop_hook(vars.mlx, draw_image, &vars);
 	mlx_loop(vars.mlx);
+	mlx_destroy_window(vars.mlx, vars.window);
+	mlx_destroy_image(vars.mlx, vars.img);
+	mlx_destroy_display(vars.mlx);
+	free(vars.mlx);
 	return (0);
 }

@@ -43,11 +43,9 @@ int main(void)
 
 	vars.mlx = mlx_init();
 	vars.window = mlx_new_window(vars.mlx, 640, 480, "New Window");
-	// Not mlx_destroy_window(); and free();
-	// Not definitery or indirectory leaks;
-	// mlx_loop(vars.mlx);
+	mlx_loop(vars.mlx);
 
-	mlx_destroy_window(vars.mlx, vars.window);
-	free(vars.mlx);
+	// mlx_destroy_window(vars.mlx, vars.window);
+	// free(vars.mlx);
 	return (0);
 }

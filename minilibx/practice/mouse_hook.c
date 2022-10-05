@@ -3,7 +3,7 @@
 
 typedef struct	s_vars {
 	void	*mlx;
-	void	*win;
+	void	*window;
 }	t_vars;
 
 int	mouse_hook(int keycode, t_vars *vars)
@@ -19,8 +19,8 @@ int	main(void)
 	t_vars	vars;
 
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
-	mlx_mouse_hook(vars.win, mouse_hook, &vars);
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Mouse hook");
+	mlx_mouse_hook(vars.window, mouse_hook, &vars);
 	mlx_loop(vars.mlx);
 
 	return (0);

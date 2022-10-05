@@ -3,7 +3,7 @@
 
 typedef struct	s_vars_data {
 	void	*mlx;
-	void	*win;
+	void	*window;
 
 	void	*img;
 	char	*addr;
@@ -137,7 +137,7 @@ int	render_rainbow(t_vars_data *vars)
 			y = 0;
 			x += 1;
 		}
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+		mlx_put_image_to_window(vars->mlx, vars->window, vars->img, 0, 0);
 	}
 	return (0);
 }
@@ -147,7 +147,7 @@ int	main(void)
 	t_vars_data	vars;
 
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Render rainbow");
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Render rainbow");
 	vars.img = mlx_new_image(vars.mlx, 640, 480);
 	vars.addr = mlx_get_data_addr(
 			vars.img

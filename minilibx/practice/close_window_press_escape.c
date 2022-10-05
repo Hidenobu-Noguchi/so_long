@@ -9,30 +9,14 @@ typedef struct	s_vars
 	void	*win;
 }	t_vars;
 
-void	free_null_t_vars(t_vars *vars)
-{
-	if (vars->mlx != NULL)
-	{
-		free(vars->mlx);
-		vars->mlx = NULL;
-	}
-	if (vars->win != NULL)
-	{
-		free(vars->win);
-		vars->win = NULL;
-	}
-	free(vars);
-	vars = NULL;
-}
-
 # define KEY_ESCAPE_MAC 27
 # define KEY_ESCAPE_LINUX 65307
 int	close_window(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_ESCAPE_MAC || keycode == KEY_ESCAPE_LINUX)
 		mlx_destroy_window(vars->mlx, vars->win);
-	free_null_t_vars(vars);
-	return (0);
+	free(vars->mlx);
+	exit (0);
 }
 
 // void	mlx_hook(mlx_win_list_t *win_ptr, int x_event

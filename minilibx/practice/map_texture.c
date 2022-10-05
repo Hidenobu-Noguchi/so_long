@@ -1,4 +1,5 @@
 #include <mlx.h>
+#include <stdlib.h>
 
 # define MAP_HEIGHT 6
 # define MAP_WIDTH 21
@@ -72,5 +73,12 @@ int	main(void)
 		i += 1;
 	}
 	mlx_loop(vars.mlx);
+	mlx_destroy_window(vars.mlx, vars.win);
+	mlx_destroy_image(vars.mlx, wall_img);
+	mlx_destroy_image(vars.mlx, field_img);
+	mlx_destroy_image(vars.mlx, collect_img);
+	mlx_destroy_image(vars.mlx, enemy_img);
+	mlx_destroy_display(vars.mlx);
+	free(vars.mlx);
 	return (0);
 }
