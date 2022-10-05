@@ -1,5 +1,10 @@
 #include <mlx.h>
 
+typedef struct	s_vars {
+	void	*mlx;
+	void	*window;
+}	t_vars;
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -18,13 +23,12 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int main(void)
 {
-	void	*new_mlx;
-	void	*new_mlx_window;
+	t_vars	vars;
 	t_data	image;
 
-	new_mlx = mlx_init();
-	new_mlx_window = mlx_new_window(new_mlx, 1920, 1080, "Hello world!");
-	image.img = mlx_new_image(new_mlx, 1920, 1080);
+	vars.mlx = mlx_init();
+	vars.window = mlx_new_window(vars.mlx, 640, 480, "Draw circle");
+	image.img = mlx_new_image(vars.mlx, 640, 480);
 	image.addr = mlx_get_data_addr(
 			image.img
 			, &image.bits_per_pixel
@@ -39,7 +43,7 @@ int main(void)
 				my_mlx_pixel_put(&image, i, j, 0x0000FF00);
 			else
 				my_mlx_pixel_put(&image, i, j, 0x00FF0000);
-	mlx_put_image_to_window(new_mlx, new_mlx_window, image.img, 0, 0);
-	mlx_loop(new_mlx);
+	mlx_put_image_to_window(vars.mlx, vars.window, image.img, 0, 0);
+	mlx_loop(vars.mlx);
 	return (0);
 }

@@ -1,128 +1,134 @@
 #include <mlx.h>
 
-int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b)
-{
-	return (*(int *)(unsigned char [4]){b, g, r, t});
-}
+# define KEY_A 97
+# define KEY_D 100
+# define KEY_S 115
+# define KEY_W 119
 
-typedef struct	s_data {
+typedef struct	s_vars_data {
+	void	*mlx;
+	void	*win;
+
 	void	*img;
 	char	*addr;
 	int	bits_per_pixel;
 	int	line_length;
 	int	endian;
-}	t_data;
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+	int	centre_x;
+	int	centre_y;
+	unsigned int	radius;
+}	t_vars_data;
+
+void	my_mlx_pixel_put(t_vars_data *vars, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	dst = vars->addr + (y * vars->line_length + x * (vars->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
-
-void	draw_circle_mid_point(t_data *image, int centre_x, int centre_y, unsigned int radius)
+int	draw_circle_mid_point(t_vars_data *vars)
 {
-	int		adjacent;
-	int		opposite;
-	int		p;
-	int		color;
+	static int	flame_count = 500;
+	int	adjacent;
+	int	opposite;
+	int	p;
+	int	color;
 
-	unsigned char	t = 0;
-	unsigned char	r = 255;
-	unsigned char	g = 0;
-	unsigned char	b = 0;
-	int		yellow = 1;
-	int		green = 0;
-	int		cyan = 0;
-
-	adjacent = radius;
-	opposite = 0;
-	p = 1 - (int)radius;
-	color = create_trgb(t, r, g, b);
-	my_mlx_pixel_put(image, centre_x, centre_y, 0xFFFFFFFF);
-	my_mlx_pixel_put(image, centre_x + radius, centre_y, 0xFFFFFFFF);
-	my_mlx_pixel_put(image, centre_x - radius, centre_y, 0xFFFFFFFF);
-	my_mlx_pixel_put(image, centre_x, centre_y + radius, 0xFFFFFFFF);
-	my_mlx_pixel_put(image, centre_x, centre_y - radius, 0xFFFFFFFF);
-	while (opposite < adjacent)
+	if (flame_count == 500)
 	{
-		opposite += 1;
-		if (p <= 0)
-			p += (2 * opposite) + 1;
-		else
+		if (vars->img)
 		{
-			adjacent -= 1;
-			p += (2 * opposite) - (2 * adjacent) + 1;
+			mlx_destroy_image(vars->mlx, vars->img);
 		}
-		if (adjacent < opposite)
-			break ;
-		my_mlx_pixel_put(image, centre_x + adjacent, centre_y + opposite, color);
-		my_mlx_pixel_put(image, centre_x - adjacent, centre_y - opposite, color);
-		my_mlx_pixel_put(image, centre_x + adjacent, centre_y - opposite, color);
-		my_mlx_pixel_put(image, centre_x - adjacent, centre_y + opposite, color);
-		if (adjacent != opposite)
+		vars->img = mlx_new_image(vars->mlx, 680, 450);
+		vars->addr = mlx_get_data_addr(
+			vars->img
+			, &vars->bits_per_pixel
+			, &vars->line_length
+			, &vars->endian
+			);
+		adjacent = vars->radius;
+		opposite = 0;
+		p = 1 - (int)vars->radius;
+		color = 0x00FF0000;
+		my_mlx_pixel_put(vars, vars->centre_x, vars->centre_y, color);
+		my_mlx_pixel_put(vars, vars->centre_x + vars->radius, vars->centre_y, color);
+		my_mlx_pixel_put(vars, vars->centre_x - vars->radius, vars->centre_y, color);
+		my_mlx_pixel_put(vars, vars->centre_x, vars->centre_y + vars->radius, color);
+		my_mlx_pixel_put(vars, vars->centre_x, vars->centre_y - vars->radius, color);
+		while (opposite < adjacent)
 		{
-			my_mlx_pixel_put(image, centre_x + opposite, centre_y + adjacent, color);
-			my_mlx_pixel_put(image, centre_x - opposite, centre_y + adjacent, color);
-			my_mlx_pixel_put(image, centre_x + opposite, centre_y - adjacent, color);
-			my_mlx_pixel_put(image, centre_x - opposite, centre_y - adjacent, color);
-		}
-		if (yellow == 1)
-		{
-			if (g < 255)
-				g += 5;
+			opposite += 1;
+			if (p <= 0)
+				p += (2 * opposite) + 1;
 			else
 			{
-				green = 1;
-				yellow = 0;
+				adjacent -= 1;
+				p += (2 * opposite) - (2 * adjacent) + 1;
 			}
-		}
-		else if (green == 1)
-		{
-			if (0 < r)
-				r -= 5;
-			else
+			if (adjacent < opposite)
+				break ;
+			my_mlx_pixel_put(vars, vars->centre_x + adjacent, vars->centre_y + opposite, color);
+			my_mlx_pixel_put(vars, vars->centre_x - adjacent, vars->centre_y - opposite, color);
+			my_mlx_pixel_put(vars, vars->centre_x + adjacent, vars->centre_y - opposite, color);
+			my_mlx_pixel_put(vars, vars->centre_x - adjacent, vars->centre_y + opposite, color);
+			if (adjacent != opposite)
 			{
-				green = 0;
-				cyan = 1;
+				my_mlx_pixel_put(vars, vars->centre_x + opposite, vars->centre_y + adjacent, color);
+				my_mlx_pixel_put(vars, vars->centre_x - opposite, vars->centre_y + adjacent, color);
+				my_mlx_pixel_put(vars, vars->centre_x + opposite, vars->centre_y - adjacent, color);
+				my_mlx_pixel_put(vars, vars->centre_x - opposite, vars->centre_y - adjacent, color);
 			}
 		}
-		else if (cyan == 1)
-		{
-			if (b < 255)
-				b += 5;
-			else
-				cyan = 0;
-		}
-		else
-			g -= 5;
-		color = create_trgb(t, r, g, b);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+		flame_count = 0;
 	}
+	else
+	{
+		flame_count += 1;
+	}
+	return (0);
+}
+
+#include <stdio.h>
+
+int	add_coordinate(int keycode, t_vars_data *vars)
+{
+	if (keycode == KEY_A)
+	{
+		vars->centre_x -= 10;
+	}
+	else if (keycode == KEY_D)
+	{
+		vars->centre_x += 10;
+	}
+	else if (keycode == KEY_W)
+	{
+		vars->centre_y -= 10;
+	}
+	else if (keycode == KEY_S)
+	{
+		vars->centre_y += 10;
+	}
+	printf("Press keycode is [%d] (%c)\n", keycode, keycode);
+	return (0);
 }
 
 #include <stdlib.h>
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	void	*new_mlx;
-	void	*new_mlx_window;
-	t_data	image;
+	t_vars_data	vars;
 
-	if (argc != 4)
-		return (0);
-	new_mlx = mlx_init();
-	new_mlx_window = mlx_new_window(new_mlx, 680, 450, "Move circle");
-	image.img = mlx_new_image(new_mlx, 680, 450);
-	image.addr = mlx_get_data_addr(
-			image.img
-			, &image.bits_per_pixel
-			, &image.line_length
-			, &image.endian
-			);
-	draw_circle_mid_point(&image
-			, atoi(argv[1]), atoi(argv[2]), atoi(argv[3]));
-	mlx_put_image_to_window(new_mlx, new_mlx_window, image.img, 0, 0);
-	mlx_loop(new_mlx);
+	vars.centre_x = 250;
+	vars.centre_y = 250;
+	vars.radius = 100;
+	vars.img = NULL;
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, 680, 450, "Move circle");
+	mlx_key_hook(vars.win, add_coordinate, &vars);
+	mlx_loop_hook(vars.mlx, draw_circle_mid_point, &vars);
+	mlx_loop(vars.mlx);
 	return (0);
 }
