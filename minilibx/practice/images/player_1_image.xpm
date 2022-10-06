@@ -1,5 +1,5 @@
 /* XPM */
-static char *_dda3ff22be34cf9a54ac94f9025ca1akmXGRieU7JCM5vjg[] = {
+static char *player_1[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 33 1 ",
 "  c #936044",
@@ -64,6 +64,7 @@ static char *_dda3ff22be34cf9a54ac94f9025ca1akmXGRieU7JCM5vjg[] = {
 "              =33=              ",
 "                  X.            ",
 "              .o-.              ",
+"                                ",
 "                                ",
 "                                ",
 "                                "

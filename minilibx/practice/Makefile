@@ -116,3 +116,7 @@ move_image:
 map_texture:
 	$(CC) $(CFLAGS) $(MLX_INCLUDE) map_texture.c -L$(MLX_DIR) $(MLX_LIB)
 	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./a.out
+
+put_string:
+	$(CC) $(CFLAGS) $(MLX_INCLUDE) put_string_window.c -L$(MLX_DIR) $(MLX_LIB)
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./a.out

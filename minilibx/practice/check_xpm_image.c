@@ -14,7 +14,7 @@ int	main(void)
 	void	*img;
 	int	img_width;
 	int	img_height;
-	img = mlx_xpm_file_to_image(vars.mlx, "./images/enemy_image.xpm", &img_width, &img_height);
+	img = mlx_xpm_file_to_image(vars.mlx, "./images/sample/global.xpm", &img_width, &img_height);
 
 	mlx_put_image_to_window(vars.mlx, vars.window, img, 0, 0);
 	mlx_loop(vars.mlx);

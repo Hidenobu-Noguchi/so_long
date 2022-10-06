@@ -8,11 +8,10 @@ typedef struct	s_vars {
 }	t_vars;
 
 // 17 ON_DESTROY int (*f)(void *param);
-int	close_window(t_vars *param)
+int	close_window(t_vars *vars)
 {
-	mlx_destroy_window(param->mlx, param->window);
-	free(param->mlx);
-	exit(0);
+	mlx_loop_end(vars->mlx);
+	return (0);
 }
 
 // void mlx_hook(mlx_win_list_t *win_ptr, int x_event, int x_mask, int (*f)(), void *param);
@@ -25,6 +24,10 @@ int	main(void)
 	// 17 DestroyNotify 1L<<17 StructureNotifyMask
 	mlx_hook(vars.window, 17, 1L<<17, close_window, &vars);
 	mlx_loop(vars.mlx);
+
+	mlx_destroy_window(vars.mlx, vars.window);
+	mlx_destroy_display(vars.mlx);
+	free(vars.mlx);
 
 	return (0);
 }
