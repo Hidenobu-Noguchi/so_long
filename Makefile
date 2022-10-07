@@ -3,7 +3,9 @@ NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c
+SRCS = main.c \
+	open_map_fd.c \
+	exit_write_error_message.c exit_perror.c
 
 INCLUDES_DIR = ./includes
 SRCS_DIR = ./srcs
@@ -22,7 +24,7 @@ LIBFT_DIR = libft
 LIBFT_LIB = -lft
 LIBFT_INCLUDE = $(addprefix -I, $(LIBFT_DIR)/includes)
 
-.PHONY: all clean fclean bonus re test_leaks test_overflow
+.PHONY: all clean fclean bonus re test_leaks test_overflow test_open_map_fd
 
 all: $(OBJS_DIR) $(MLX_NAME) $(LIBFT_NAME) $(NAME)
 
@@ -61,3 +63,8 @@ test_leaks: $(OBJS)
 test_overflow: $(OBJS)
 	$(CC) -g -fsanitize=address -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)
 
+test_open_map_fd:
+	$(CC) $(CFLAGS) -c $(INCLUDE) $(MLX_INCLUDE) $(LIBFT_INCLUDE) ./srcs/open_map_fd.c -o ./objs/open_map_fd.o
+	$(CC) $(CFLAGS) -c $(INCLUDE) $(MLX_INCLUDE) $(LIBFT_INCLUDE) ./srcs/exit_write_error_message.c -o ./objs/exit_write_error_message.o
+	$(CC) $(CFLAGS) -c $(INCLUDE) $(MLX_INCLUDE) $(LIBFT_INCLUDE) ./srcs/exit_perror.c -o ./objs/exit_perror.o
+	$(CC) -g -fsanitize=address -o $@ ./objs/open_map_fd.o ./objs/exit_write_error_message.o ./objs/exit_perror.o -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)
