@@ -5,7 +5,8 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c \
 	open_map_fd.c \
-	exit_write_error_message.c exit_perror.c
+	exit_write_error_message.c exit_perror.c \
+	initialize_vars_func.c
 
 INCLUDES_DIR = ./includes
 SRCS_DIR = ./srcs
@@ -20,7 +21,7 @@ MLX_LIB = -lmlx_Linux -lXext -lX11
 MLX_INCLUDE = $(addprefix -I, $(MLX_DIR))
 
 LIBFT_NAME = libft.a
-LIBFT_DIR = libft
+LIBFT_DIR = ./libft
 LIBFT_LIB = -lft
 LIBFT_INCLUDE = $(addprefix -I, $(LIBFT_DIR)/includes)
 
@@ -58,7 +59,7 @@ re: fclean all
 
 test_leaks: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)
-	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@ ./maps/standard.ber
 
 test_overflow: $(OBJS)
 	$(CC) -g -fsanitize=address -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)

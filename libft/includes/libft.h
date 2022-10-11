@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 21:58:49 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/05/11 19:44:59 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/11 04:53:59 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stddef.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <stdint.h>
 
 typedef struct s_list
 {

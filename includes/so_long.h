@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:25:18 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/07 09:25:24 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/11 09:40:29 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 #include <errno.h>
 
 # define RED "\x1b[31m"
+# define GREEN "\x1b[32m"
 # define END "\x1b[39m"
 
 typedef enum enm {
 	Wrong_args,
-	Not_extension_ber
+	Not_extension_ber,
+	Not_surrounded_wall,
+	Not_map_data_empty_file
 }	error_num;
 
 void	exit_perror(char *subject);
