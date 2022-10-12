@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 04:02:33 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/11 07:45:03 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/12 09:36:42 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	initialize_map_info(t_map_info *info)
 	info->height = 0;
 	info->width = 0;
 	info->collectible_count = 0;
+	info->exit_count = 0;
+	info->player_count = 0;
 }
 
 void	initialize_mlx_window(t_game_info *game_info)

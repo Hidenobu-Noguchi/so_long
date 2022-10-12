@@ -59,7 +59,7 @@ re: fclean all
 
 test_leaks: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)
-	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@ ./maps/standard.ber
+	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@ ./maps/leaks.ber
 
 test_overflow: $(OBJS)
 	$(CC) -g -fsanitize=address -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)

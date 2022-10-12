@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 05:02:21 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/11 12:04:46 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:03:05 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,112 +15,279 @@
 #include "libft.h"
 #include "get_next_line.h"
 
-void	safe_free(char **str)
-{
-	if (!str[0])
-	{
-		free(str[0]);
-	}
-	str[0] = NULL;
-	if (!str)
-	{
-		free(str);
-	}
-	str = NULL;
-}
-
-void	map_frees(char ***data)
-{
-	int	i;
-
-	i = 0;
-	while (!data[0][i])
-	{
-		safe_free(&data[0][i]);
-		i += 1;
-	}
-	// safe_free(&data[0][i]);
-	if (!data[0])
-	{
-		free(data[0]);
-	}
-	data[0] = NULL;
-	if (!data)
-	{
-		free(data);
-	}
-	data = NULL;
-}
-
-void	create_game_map_and_parse(int fd, t_game_info *game_info)
+void	map_frees(char **map)
 {
 	size_t	i;
-	char	*read_buf;
-	char	**buf_game_map;
-	char	**tmp_game_map;
-	
+
 	i = 0;
-	while (i < 1)
+	while(map[i])
 	{
-		read_buf = get_next_line(fd);
-		if (!read_buf)
-		{
-			// safe_free(&read_buf);
-			break ;
-		}
-		// printf("-----------------------\n");
-		// printf(GREEN"[OK]"END); printf(": read_buf\n");
-		tmp_game_map = (char **)ft_calloc(game_info->map_info.height + 2, sizeof(char *));
+		free(map[i]);
+		i += 1;
+	}
+	free(map);
+}
+
+/*
+char	*so_long_strjoin(char *s1, char *s2)
+{
+	char	*dst;
+
+	dst = ft_strjoin(s1, s2);
+	free(s1);
+	return (dst);
+}
+
+void	create_game_map(int fd, t_map_info *map_info)
+{
+	char	*tmp_read_map;
+	char	*buf_read_map;
+
+	tmp_read_map = 0;
+	buf_read_map = 0;
+	while ((tmp_read_map = get_next_line(fd)))
+	{
+		buf_read_map = so_long_strjoin(buf_read_map, tmp_read_map);
+		free(tmp_read_map);
 		if (errno == ENOMEM)
 		{
-			safe_free(&read_buf);
-			// map_frees(&tmp_game_map);
-			map_frees(&buf_game_map);
 			exit_perror(" ");
 		}
-		// printf(GREEN"[OK]"END); printf(": tmp_game_map\n");
-		while (game_info->map_info.height != 0 && i < game_info->map_info.height)
+	}
+	map_info->game_map = ft_split(buf_read_map, '\n');
+	free(buf_read_map);
+	if (errno == ENOMEM)
+	{
+		exit_perror(" ");
+	}
+	if (!map_info->game_map)
+	{
+		exit_write_error_message(Failed_read_map);
+	}
+}
+*/
+
+char	**array_strjoin(size_t ary_size, char **source_ary, char *add_str)
+{
+	size_t	i;
+	char	**dst_ary;
+
+	i = 0;
+	dst_ary = (char **)malloc(sizeof(char *) * (ary_size + 2));
+	if (errno == ENOMEM)
+	{
+		map_frees(source_ary);
+		return (NULL);
+	}
+	while(i < ary_size)
+	{
+		dst_ary[i] = ft_strdup(source_ary[i]);
+		if (errno == ENOMEM)
 		{
-			// printf("	-------- while() --------\n");
-			tmp_game_map[i] = ft_strdup(buf_game_map[i]);
-			// printf(GREEN"	[OK]"END); printf(": tmp_game_map[%ld]\n", i);
-			if (errno == ENOMEM)
+			map_frees(source_ary);
+			map_frees(dst_ary);
+			return (NULL);
+		}
+		i += 1;
+	}
+	dst_ary[i] = ft_strdup(add_str);
+	if (errno == ENOMEM)
+	{
+		map_frees(source_ary);
+		map_frees(dst_ary);
+		return (NULL);
+	}
+	if (0 < ary_size)
+	{
+		map_frees(source_ary);
+	}
+	dst_ary[i + 1] = '\0';
+	return (dst_ary);
+}
+
+void	create_game_map(int fd, t_map_info *map_info)
+{
+	size_t	buf_read_count;
+	char	*tmp_read_map;
+	char	**buf_read_map;
+
+	(void)map_info;
+	buf_read_count = 0;
+	tmp_read_map = 0;
+	buf_read_map = 0;
+	while ((tmp_read_map = get_next_line(fd)))
+	{
+		buf_read_map = array_strjoin(buf_read_count, buf_read_map, tmp_read_map);
+		free(tmp_read_map);
+		if (errno == ENOMEM)
+		{
+			exit_perror(" ");
+		}
+		buf_read_count += 1;
+	}
+	if (!buf_read_map)
+	{
+		exit_write_error_message(Failed_read_map);
+	}
+	for (size_t i = 0; i < buf_read_count; i++)
+	{
+		printf(GREEN"[OK]"END); printf(" : [%02ld] : %s", i, buf_read_map[i]);
+	}
+	map_frees(buf_read_map);
+	/*
+	// map_info->game_map = ft_split(buf_read_map, '\n');
+	// free(buf_read_map);
+	if (errno == ENOMEM)
+	{
+		exit_perror(" ");
+	}
+	*/
+}
+
+void	check_square_map(size_t idx, t_map_info *map_info)
+{
+	size_t	len;
+
+	if (idx == 0)
+	{
+		return ;
+	}
+	len = ft_strlen(map_info->game_map[idx]);
+	if (len != map_info->width)
+	{
+		map_frees(map_info->game_map);
+		exit_write_error_message(Not_square_map);
+	}
+}
+
+void	check_surrounded_wall(size_t idx, t_map_info *map_info)
+{
+	size_t	i;
+
+	i = 0;
+	// if (idx == 0 || idx == (map_info->height - 1))
+	if (idx == 0)
+	{
+		while (map_info->game_map[idx][i])
+		{
+			if (map_info->game_map[idx][i] != '1')
 			{
-				safe_free(&read_buf);
-				map_frees(&tmp_game_map);
-				map_frees(&buf_game_map);
-				exit_perror(" ");
+				map_frees(map_info->game_map);
+				exit_write_error_message(Not_surrounded_wall);
 			}
 			i += 1;
 		}
-		tmp_game_map[i] = ft_strdup(read_buf);
-		if (errno == ENOMEM)
-		{
-			safe_free(&read_buf);
-			map_frees(&tmp_game_map);
-			map_frees(&buf_game_map);
-			exit_perror(" ");
-		}
-			// printf(GREEN"[OK]"END); printf(": ft_strdup(read_buf);\n");
-		game_info->map_info.height += 1;
-			// printf(GREEN"[OK]"END); printf(": increment height += 1\n");
-		map_frees(&buf_game_map);
-		buf_game_map = tmp_game_map;
-			// printf(GREEN"[OK]"END); printf(": buf_game_map = tmp_game_map\n");
-		safe_free(&read_buf);
-			// printf(GREEN"[OK]"END); printf(": safe_free(&read_buf);\n");
-		map_frees(&tmp_game_map);
-			// printf(GREEN"[OK]"END); printf(": map_frees(&tmp_game_map);\n");
-		// i = 0;
-		i += 1;
-			// printf(GREEN"[OK]"END); printf(": increment i\n");
-			// printf("-----------------------\n");
 	}
-	game_info->map_info.game_map = buf_game_map;
-	// safe_free(&read_buf);
-	// map_frees(&tmp_game_map);
-	map_frees(&buf_game_map);
-	close(fd);
+	else
+	{
+		if (map_info->game_map[idx][0] != '1'
+			|| map_info->game_map[idx][map_info->width - 1] != '1')
+		{
+			map_frees(map_info->game_map);
+			exit_write_error_message(Not_surrounded_wall);
+		}
+	}
+}
+
+# define MAP_ELEMENTS "01CMEP"
+
+bool	is_map_elements(char element)
+{
+	if (ft_strchr(MAP_ELEMENTS, element))
+	{
+		return (true);
+	}
+	return (false);
+}
+
+void	count_map_elements(size_t idx, t_map_info *map_info)
+{
+	size_t	i;
+	size_t	wall_count;
+
+	if (idx == 0 || idx == (map_info->height - 1))
+	{
+		return ;
+	}
+	i = 1;
+	wall_count = 2;
+	while (i < (map_info->width - 2))
+	{
+		if (!is_map_elements(map_info->game_map[idx][i]))
+		{
+			map_frees(map_info->game_map);
+			exit_write_error_message(Not_map_element);
+		}
+		else if (map_info->game_map[idx][i] == '1')
+		{
+			wall_count += 1;
+		}
+		else if (map_info->game_map[idx][i] == 'C')
+		{
+			map_info->collectible_count += 1;
+		}
+		else if (map_info->game_map[idx][i] == 'E')
+		{
+			map_info->exit_count += 1;
+		}
+		else if (map_info->game_map[idx][i] == 'P')
+		{
+			map_info->player_count += 1;
+		}
+		i += 1;
+	}
+	if (wall_count == map_info->width)
+	{
+		map_frees(map_info->game_map);
+		exit_write_error_message(Only_wall_elements);
+	}
+}
+
+void	set_map_info(int fd, t_map_info *map_info)
+{
+	create_game_map(fd, map_info);
+
+	/*
+	// parse
+	// check_surrounded_wall();
+	// check_square_map();
+	// count_map_elements();
+	// check_map_elements(map_info);
+	size_t	i;
+
+	i = 0;
+	map_info->width = ft_strlen(map_info->game_map[0]);
+		printf("map_info->height = [%ld]\n", map_info->height);
+	while (map_info->game_map[i])
+	{
+		check_square_map(i, map_info);
+		printf(GREEN"[OK]"END); printf(" : check_square_map(%ld, );\n", i);
+		// check_surrounded_wall(i, map_info);
+		// printf(GREEN"[OK]"END); printf(" : check_surrounded(%ld, );\n", i);
+		// count_map_elements(i, map_info);
+		i += 1;
+	}
+	// check_map_elements(map_info);
+	// check_row_count(map_info);
+	size_t	map_height;
+	printf("map_info->height = [%ld]\n", map_info->height);
+	int i = 0;
+	while (map_info->game_map[i])
+	{
+		i += 1;
+	}
+	printf("               i = [%d]\n", i);
+
+	while(map_info->game_map[map_info->height][0] == '1')
+	{
+		 += 1;
+	}
+	if (map_info->height != (read_count - 1))
+	{
+		map_info->height = read_count;
+		map_frees(map_info->game_map);
+	}
+	*/
 }
 
 void	initialize_game_info(t_game_info *game_info)
@@ -134,7 +301,7 @@ void	initialize_game_info(t_game_info *game_info)
 void	game_initialize(int map_fd, t_game_info *game_info)
 {
 	initialize_game_info(game_info);
-	create_game_map_and_parse(map_fd, game_info);
+	set_map_info(map_fd, &game_info->map_info);
 	// initialize_mlx_window(game_info);
 		// create_mlx_new_window(game_info);
 	// set_image_in_map(game_info);		
@@ -148,27 +315,19 @@ int main(int argc, char **argv)
 
 	map_fd = open_map_fd(argc, argv);
 	game_initialize(map_fd, &game_info);
-	int	i = 0;
-	while(1)
-	{
-		if (!game_info.map_info.game_map[i])
-		{
-			break ;
-		}
-		else
-		{
-			printf("%s", game_info.map_info.game_map[i]);
-		}
-		i += 1;
-	}
-	map_frees(&game_info.map_info.game_map);
 	   // read map fd;
 	   // parse map; end or continue
 	   // get image (wall, field, collect, enemy, player, exit);
 	   // mlx_init();
 	   // mlx_new_window();
 	   // mlx_key_hook();
-
+	 /*
+	for (int i = 0; game_info.map_info.game_map[i]; i++)
+	{
+		printf("[%d] : %s\n", i, game_info.map_info.game_map[i]);
+	}
+	*/
+	// map_frees(game_info.map_info.game_map);
 	// game_loop(t_vars vars);
 	   // mlx_loop_hook();
 	   // mlx_loop();
@@ -180,78 +339,4 @@ int main(int argc, char **argv)
 	   // free();
 	return (0);
 }
-
-/*
-char	*so_long_strjoin(char *s1, char *s2)
-{
-	char	*dst;
-
-	dst = ft_strjoin(s1, s2);
-	safe_free(&s1);
-	return (dst);
-}
-
-	if (game_info->map_info.height == 0)
-	{
-		size_t	i;
-			
-		i = 0;
-			while(read_buf[i] != '\n' && read_buf[i] != '\0')
-			{
-				if (read_buf[i] != '1')
-				{
-					map_frees(&game_info->map_info.game_map);
-					free(read_buf);
-					exit_write_error_message(Not_surrounded_wall);
-				}
-				else
-				{
-					i += 1;
-				}
-			}
-			if (read_buf[i] == '\n')
-			{
-				game_info->map_info.height += 1;
-				game_info->map_info.width = i - 1;
-			}
-
-		}
-		else if (0 < game_info->map_info.height)
-		{
-		}
-		free(read_buf);
-		*/
-	/*
-	// read_map();
-	int	read_bytes;
-	char	read_buf[BUFFER_SIZE];
-	char	*tmp_game_map;
-
-	(void)game_info;
-	read_bytes = -1;
-	tmp_game_map = 0;
-	while ((read_bytes = read(fd, read_buf, BUFFER_SIZE)) != 0)
-	{
-		if (read_bytes == -1)
-		{
-			exit_perror (" ");
-		}
-		tmp_game_map = so_long_strjoin(tmp_game_map, read_buf);
-	}
-	// create_game_map();
-		// *tmp_game_map = read_buf
-		// game_info->map_info.game_map = ft_split(tmp_game_map, '\n');
-	int i;
-
-	i = 0;
-	game_info->map_info.game_map = ft_split(tmp_map_data, '\n');
-	free(tmp_map_data);
-	while (game_info->map_info.game_map[i] != 0)
-	{
-		printf("%s\n", game_info->map_info.game_map[i]);
-		i += 1;
-	}
-	map_frees(&game_info->map_info.game_map);
-	// parse_map();
-	*/
 

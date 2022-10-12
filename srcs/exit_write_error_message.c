@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:23:30 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/11 08:04:05 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:56:16 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,38 @@
 
 void	exit_write_error_message(error_num num)
 {
-	ft_putstr_fd(RED"Usage: ", STDERR_FILENO);
+	ft_putstr_fd(RED"Error\nUsage: ", STDERR_FILENO);
 	if (num == Wrong_args)
+	{
 		ft_putstr_fd("Wrong arguments!"END, STDERR_FILENO);
+	}
 	else if (num == Not_extension_ber)
+	{
 		ft_putstr_fd("Not extension .ber"END, STDERR_FILENO);
-	else if (num == Not_surrounded_wall)
-		ft_putstr_fd("Not surrounded wall. This file is wrong."END, STDERR_FILENO);
+	}
 	else if (num == Not_map_data_empty_file)
+	{
 		ft_putstr_fd("Not map data. This file is empty."END, STDERR_FILENO);
+	}
+	else if (num == Failed_read_map)
+	{
+		ft_putstr_fd("Failed read map."END, STDERR_FILENO);
+	}
+	else if (num == Not_surrounded_wall)
+	{
+		ft_putstr_fd("Wrong map. Not surrounded wall."END, STDERR_FILENO);
+	}
+	else if (num == Not_square_map)
+	{
+		ft_putstr_fd("Wrong map. Not square map."END, STDERR_FILENO);
+	}
+	else if (num == Not_map_element)
+	{
+		ft_putstr_fd("Wrong map. There is a not map element."END, STDERR_FILENO);
+	}
+	else if (num == Only_wall_elements)
+	{
+		ft_putstr_fd("Wrong map. A row is wall elements only."END, STDERR_FILENO);
+	}
 	exit(EXIT_FAILURE);
 }
