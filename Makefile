@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c \
 	open_map_fd.c \
 	exit_write_error_message.c exit_perror.c \
-	initialize_vars_func.c
+	initialize_game_info_func.c
 
 INCLUDES_DIR = ./includes
 SRCS_DIR = ./srcs
@@ -59,7 +59,7 @@ re: fclean all
 
 test_leaks: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)
-	valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@ ./maps/leaks.ber
+	# valgrind --leak-check=full --leak-resolution=high --show-reachable=no ./$@ ./maps/
 
 test_overflow: $(OBJS)
 	$(CC) -g -fsanitize=address -o $@ $^ -L$(MLX_DIR) $(MLX_LIB) -L$(LIBFT_DIR) $(LIBFT_LIB)

@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:25:18 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/12 10:23:27 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:25:24 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ typedef enum enm {
 	Not_extension_ber,
 	Not_map_data_empty_file,
 	Failed_read_map,
+	Extra_new_line,
+	Not_rectangular_map,
 	Not_surrounded_wall,
-	Not_square_map,
 	Not_map_element,
-	Only_wall_elements
+	Not_enough_elements,
+	Crossing_wall
 }	error_num;
 
 void	exit_perror(char *subject);

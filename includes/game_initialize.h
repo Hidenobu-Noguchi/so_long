@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 03:18:12 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/12 09:35:50 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/13 09:01:06 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct	s_map_info {
 	size_t	height;
 	size_t	width;
 	size_t	collectible_count;
+	size_t	free_space_count;
 	size_t	exit_count;
 	size_t	player_count;
 	// size_t	move_count;
