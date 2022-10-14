@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_vars_func.c                             :+:      :+:    :+:   */
+/*   initialize_game_info_func.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 04:02:33 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/13 09:01:43 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:25:19 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	initialize_map_info(t_map_info *info)
 	info->free_space_count = 0;
 	info->exit_count = 0;
 	info->player_count = 0;
+	info->pos.row = 0;
+	info->pos.column = 0;
 }
 
 void	initialize_mlx_window(t_game_info *game_info)
