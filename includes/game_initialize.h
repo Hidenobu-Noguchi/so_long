@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 03:18:12 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/13 09:01:06 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/12/07 09:44:54 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,38 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "so_long.h"
+
+# define MAP_ELEMENTS "01CMEP"
+# define WALL '1'
+# define FIELD '0'
+# define COLLECT 'C'
+# define EMEMY 'M'
+# define PLAYER 'P'
+# define EXIT 'E'
+# define PASSED '3'
+
+typedef struct	s_player_position t_player_position;
+typedef struct	s_map_info t_map_info;
+typedef struct	s_image t_image;
+typedef struct	s_player t_player;
+typedef struct	s_map_part_images t_map_part_images;
+typedef struct	s_game_info t_game_info;
+/*
+typedef struct	s_player_position {
+	size_t	row;
+	size_t	column;
+}	t_player_position;
 
 typedef struct	s_map_info {
-	char	**game_map;
-	size_t	height;
-	size_t	width;
-	size_t	collectible_count;
-	size_t	free_space_count;
-	size_t	exit_count;
-	size_t	player_count;
+	char			**game_map;
+	size_t			height;
+	size_t			width;
+	size_t			collectible_count;
+	size_t			free_space_count;
+	size_t			exit_count;
+	size_t			player_count;
+	t_player_position	pos;
 	// size_t	move_count;
 }	t_map_info;
 
@@ -57,12 +80,26 @@ typedef struct	s_game_info {
 	t_player		player;
 	t_map_part_images	map_part_images;
 }	t_game_info;
+*/
+
+typedef struct	s_test_player_position {
+	size_t	row;
+	size_t	column;
+}	t_test_player_position;
+
+typedef struct	s_test_map_info {
+	size_t			height;
+	size_t			width;
+}	t_test_map_info;
 
 void	initialize_image(t_image *image);
 void	initialize_map_part_images(t_map_part_images *map_parts);
 void	initialize_player(t_player *player);
 void	initialize_map_info(t_map_info *info);
 void	initialize_mlx_window(t_game_info *game_info);
+
+void	read_game_map(int fd, t_map_info *map_info);
+void	parse_game_map(t_map_info *map_info);
 /*
 typedef struct	s_image {
 	void	*img;

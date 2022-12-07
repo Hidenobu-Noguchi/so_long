@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:25:18 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/10/13 11:25:24 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:25:55 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,55 @@ typedef enum enm {
 	Crossing_wall
 }	error_num;
 
+typedef struct	s_player_position {
+	size_t	row;
+	size_t	column;
+}	t_player_position;
+
+typedef struct	s_map_info {
+	char			**game_map;
+	size_t			height;
+	size_t			width;
+	size_t			collectible_count;
+	size_t			free_space_count;
+	size_t			exit_count;
+	size_t			player_count;
+	t_player_position	pos;
+	// size_t	move_count;
+}	t_map_info;
+
+typedef struct	s_image {
+	void	*img;
+	size_t	height;
+	size_t	width;
+}	t_image;
+
+typedef struct	s_player {
+	t_image	img;
+	size_t	move_count;
+	size_t	get_collect_count;
+}	t_player;
+
+typedef struct	s_map_part_images {
+	t_image		wall;
+	t_image		field;
+	t_image		collectible;
+	t_image		enemy;
+	t_player	player;
+}	t_map_part_images;
+
+
+typedef struct	s_game_info {
+	void			*mlx;
+	void			*window;
+	t_map_info		map_info;
+	t_player		player;
+	t_map_part_images	map_part_images;
+}	t_game_info;
+
 void	exit_perror(char *subject);
 void	exit_write_error_message(error_num num);
 int	open_map_fd(int argc, char **argv);
+void	map_frees(char **map);
 
 #endif

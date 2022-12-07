@@ -5,8 +5,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c \
 	open_map_fd.c \
-	exit_write_error_message.c exit_perror.c \
-	initialize_game_info_func.c
+	map_frees.c exit_write_error_message.c exit_perror.c \
+	initialize_game_info_func.c \
+	read_game_map.c parse_game_map.c
 
 INCLUDES_DIR = ./includes
 SRCS_DIR = ./srcs
