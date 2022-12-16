@@ -1,5 +1,5 @@
 /* XPM */
-static char *wall_tile[] = {
+static char *collectible[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 15 1 ",
 "  c #936044",
@@ -51,44 +51,4 @@ static char *wall_tile[] = {
 "          &&&&33&&              ",
 "                                ",
 "                                "
-
 };
-
-/*
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"            ssNss               ",
-"           sNmNmNs              ",
-"         NbNNmNNmN              ",
-"         smbNmNbms              ",
-"          sNmNbNs ini           ",
-"           ssNss inMni          ",
-"          =5---3*nMMbMi         ",
-"          ==333**inbbMM         ",
-"            *3* &-inMni         ",
-"            *5* &3-iMi          ",
-"            *5*&3&-&            ",
-"            *5*&3&&&            ",
-"            *3*3&               ",
-"            *-*3&               ",
-"              &3&               ",
-"              &3&               ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                ",
-"                                "
-
-*/
-/*
-*/
