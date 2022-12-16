@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_frees.c                                        :+:      :+:    :+:   */
+/*   draw_image.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 05:02:21 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/12/16 08:40:43 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/12/16 07:46:02 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "libft.h"
 
-void	map_frees(char **map, int height)
+int	draw_image(t_game_info *info)
 {
-	int	i;
+	static int	flame_count;
 
-	i = 0;
-	while (i < height)
+	if (flame_count == 10000)
 	{
-		free(map[i]);
-		i += 1;
+		mlx_put_image_to_window(info->mlx, info->window,
+			info->player.img_1.img,
+			WIDTH_IMAGE * info->player.pos.column,
+			HEIGHT_IMAGE * info->player.pos.row);
+		flame_count += 1;
 	}
-	free(map);
+	else if (flame_count == 20000)
+	{
+		mlx_put_image_to_window(info->mlx, info->window,
+			info->player.img_2.img,
+			WIDTH_IMAGE * info->player.pos.column,
+			HEIGHT_IMAGE * info->player.pos.row);
+		flame_count = 0;
+	}
+	else
+	{
+		flame_count += 1;
+	}
+	return (0);
 }
